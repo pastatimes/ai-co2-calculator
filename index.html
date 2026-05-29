@@ -35,6 +35,11 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       font-family: 'Inter', -apple-system, sans-serif;
       background: var(--bg);
@@ -46,7 +51,7 @@
     /* ── Header ── */
     header {
       background:
-        linear-gradient(135deg, rgba(109,40,217,0.82) 0%, rgba(67,56,202,0.85) 100%),
+        linear-gradient(rgba(0,0,0,0.38), rgba(0,0,0,0.38)),
         url('https://images.unsplash.com/photo-1557683304-673a23048d34?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
       padding: 3rem 1.5rem 5rem;
       text-align: center;
@@ -102,6 +107,7 @@
     /* ── Main layout ── */
     main {
       max-width: 740px;
+      width: 100%;
       margin: -2.5rem auto 0;
       padding: 0 1rem 4rem;
       position: relative;
@@ -195,10 +201,10 @@
     }
     .period-toggle button.active {
       background:
-        linear-gradient(135deg, rgba(109,40,217,0.88), rgba(67,56,202,0.92)),
+        linear-gradient(rgba(0,0,0,0.22), rgba(0,0,0,0.22)),
         url('https://images.unsplash.com/photo-1557683304-673a23048d34?auto=format&fit=crop&w=400&q=80') center/cover;
       color: #fff;
-      box-shadow: 0 2px 8px rgba(109,40,217,0.35);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
 
     /* ── Cards ── */
@@ -247,7 +253,9 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.75rem;
+      min-width: 0;
     }
+    .input-block { min-width: 0; }
     .input-block label {
       display: block;
       font-size: 0.72rem;
@@ -265,6 +273,8 @@
       border: 1.5px solid transparent;
       transition: border-color 0.2s;
       overflow: hidden;
+      width: 100%;
+      min-width: 0;
     }
     .input-wrap:focus-within { border-color: var(--accent); }
     .input-wrap button {
