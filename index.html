@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI CO₂ Calculator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #718096;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .service-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .service-row:last-child { border-bottom: none; }
+
+    .service-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .service-sub {
+      font-size: 0.78rem;
+      color: #a0aec0;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .input-group label {
+      font-size: 0.72rem;
+      color: #718096;
+      text-align: center;
+    }
+
+    input[type="number"] {
+      width: 75px;
+      padding: 0.4rem 0.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="number"]:focus {
+      border-color: #667eea;
+    }
+
+    .result-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+
+    .result-card h2 {
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0.85;
+      margin-bottom: 0.5rem;
+    }
+
+    .co2-number {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .co2-unit {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin-top: 0.25rem;
+    }
+
+    .comparisons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .comparison {
+      background: rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 0.75rem 0.5rem;
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .comparison .icon { font-size: 1.4rem; display: block; margin-bottom: 0.25rem; }
+
+    .breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .breakdown-bar-wrap {
+      flex: 1;
+      height: 6px;
+      background: #edf2f7;
+      border-radius: 3px;
+      margin: 0 0.75rem;
+      overflow: hidden;
+    }
+
+    .breakdown-bar {
+      height: 100%;
+      border-radius: 3px;
+      background: #667eea;
+      transition: width 0.4s ease;
+    }
+
+    .breakdown-value {
+      font-size: 0.82rem;
+      color: #718096;
+      min-width: 60px;
+      text-align: right;
+    }
+
+    .local-options {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #edf2f7;
+      display: none;
+    }
+
+    .local-options.visible { display: block; }
+
+    .local-options label {
+      font-size: 0.85rem;
+      color: #4a5568;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .local-options input {
+      width: 90px;
+    }
+
+    .local-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .disclaimer {
+      font-size: 0.78rem;
+      color: #a0aec0;
+      line-height: 1.5;
+    }
+
+    .disclaimer a { color: #667eea; text-decoration: none; }
+
+    .period-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .period-toggle button {
+      flex: 1;
+      padding: 0.4rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      background: white;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+
+    .period-toggle button.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>AI CO₂ Calculator</h1>
+  <p class="subtitle">Schat je maandelijkse CO₂-uitstoot van AI-gebruik</p>
+
+  <!-- Period toggle -->
+  <div class="card">
+    <h2>Periode</h2>
+    <div class="period-toggle">
+      <button class="active" onclick="setPeriod('day', this)">Per dag</button>
+      <button onclick="setPeriod('month', this)">Per maand</button>
+    </div>
+    <p id="period-hint" style="font-size:0.82rem;color:#718096;">Vul in hoeveel berichten je <strong>per dag</strong> verstuurt.</p>
+  </div>
+
+  <!-- Services -->
+  <div class="card">
+    <h2>🤖 Cloudgebaseerde AI</h2>
+
+    <div class="service-row">
+      <div>
+        <div class="service-name">Claude (Anthropic)</div>
+        <div class="service-sub">Sonnet / Opus / Haiku</div>
+      </div>
+      <div class="input-group">
+        <input type="number" id="claude-msgs" min="0" value="10" oninput="calculate()" />
+        <label>berichten</label>
+      </div>
+      <div class="input-group">
+        <input type="number" id="claude-tokens" min="0" value="1000" oninput="calculate()" />
+        <label>tokens/bericht</label>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div>
+        <div class="service-name">ChatGPT (OpenAI)</div>
+        <div class="service-sub">GPT-4o / GPT-4 / GPT-3.5</div>
+      </div>
+      <div class="input-group">
+        <input type="number" id="chatgpt-msgs" min="0" value="5" oninput="calculate()" />
+        <label>berichten</label>
+      </div>
+      <div class="input-group">
+        <input type="number" id="chatgpt-tokens" min="0" value="1000" oninput="calculate()" />
+        <label>tokens/bericht</label>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div>
+        <div class="service-name">Gemini (Google)</div>
+        <div class="service-sub">Gemini Pro / Ultra</div>
+      </div>
+      <div class="input-group">
+        <input type="number" id="gemini-msgs" min="0" value="3" oninput="calculate()" />
+        <label>berichten</label>
+      </div>
+      <div class="input-group">
+        <input type="number" id="gemini-tokens" min="0" value="1000" oninput="calculate()" />
+        <label>tokens/bericht</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local models -->
+  <div class="card">
+    <h2>💻 Lokale modellen</h2>
+    <div class="service-row" style="border:none;padding-top:0;">
+      <div>
+        <div class="service-name">Eigen hardware</div>
+        <div class="service-sub">Ollama, LM Studio, etc.</div>
+      </div>
+      <div class="input-group">
+        <input type="number" id="local-hours" min="0" step="0.5" value="0" oninput="calculate()" />
+        <label>uur/dag</label>
+      </div>
+      <div class="input-group">
+        <input type="number" id="local-watt" min="0" value="200" oninput="calculate()" />
+        <label>GPU watt</label>
+      </div>
+    </div>
+    <p style="font-size:0.78rem;color:#a0aec0;margin-top:0.5rem;">
+      GPU wattage vind je in de specs van je videokaart (bijv. RTX 3080 ≈ 320W, RTX 4060 ≈ 115W, M2 MacBook ≈ 20W).
+    </p>
+  </div>
+
+  <!-- Result -->
+  <div class="result-card">
+    <h2>Geschatte CO₂-uitstoot per maand</h2>
+    <div class="co2-number" id="total-co2">—</div>
+    <div class="co2-unit">gram CO₂-equivalent</div>
+    <div class="comparisons">
+      <div class="comparison">
+        <span class="icon">🚗</span>
+        <span id="car-km">—</span> km autorijden
+      </div>
+      <div class="comparison">
+        <span class="icon">💡</span>
+        <span id="lamp-hours">—</span> uur LED-lamp
+      </div>
+      <div class="comparison">
+        <span class="icon">📱</span>
+        <span id="phone-charges">—</span>× telefoon opladen
+      </div>
+    </div>
+  </div>
+
+  <!-- Breakdown -->
+  <div class="card">
+    <h2>📊 Verdeling per dienst</h2>
+    <div class="breakdown" id="breakdown"></div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="card">
+    <h2>⚠️ Over de berekeningen</h2>
+    <p class="disclaimer">
+      Deze schattingen zijn gebaseerd op gepubliceerd onderzoek naar energieverbruik van grote taalmodellen.
+      De werkelijke uitstoot verschilt sterk per model, datacenter, energiemix en regio.<br /><br />
+      <strong>Emissiefactoren (geschat):</strong><br />
+      • Cloud AI: ~0,005–0,03 Wh per 1.000 tokens (Luccioni et al., 2023)<br />
+      • Koolstofintensiteit: OpenAI/Anthropic ≈ 200 gCO₂/kWh, Google ≈ 100 gCO₂/kWh (deels hernieuwbaar)<br />
+      • Lokale modellen: GPU-wattage × gebruiksuren × netintensiteit NL (≈ 290 gCO₂/kWh, 2024)<br /><br />
+      Beschouw deze tool als een <em>indicatie</em>, niet als exacte meting.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  let period = 'day';
+
+  function setPeriod(p, btn) {
+    period = p;
+    document.querySelectorAll('.period-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const hint = document.getElementById('period-hint');
+    hint.innerHTML = p === 'day'
+      ? 'Vul in hoeveel berichten je <strong>per dag</strong> verstuurt.'
+      : 'Vul in hoeveel berichten je <strong>per maand</strong> verstuurt.';
+    calculate();
+  }
+
+  // Emission factors
+  const FACTORS = {
+    claude:  { whPer1kTokens: 0.010, gCO2PerKwh: 200 },
+    chatgpt: { whPer1kTokens: 0.020, gCO2PerKwh: 200 },
+    gemini:  { whPer1kTokens: 0.010, gCO2PerKwh: 100 },
+    local:   { gCO2PerKwh: 290 },
+  };
+
+  const DAYS_PER_MONTH = 30;
+
+  function gCO2ForService(id) {
+    const msgs   = parseFloat(document.getElementById(id + '-msgs').value) || 0;
+    const tokens = parseFloat(document.getElementById(id + '-tokens').value) || 0;
+    const f = FACTORS[id];
+    const totalTokens = msgs * tokens * (period === 'day' ? DAYS_PER_MONTH : 1);
+    const wh = (totalTokens / 1000) * f.whPer1kTokens;
+    return (wh / 1000) * f.gCO2PerKwh;
+  }
+
+  function gCO2ForLocal() {
+    const hours = parseFloat(document.getElementById('local-hours').value) || 0;
+    const watt  = parseFloat(document.getElementById('local-watt').value) || 0;
+    const hoursPerMonth = hours * (period === 'day' ? DAYS_PER_MONTH : 1);
+    const kwh = (watt * hoursPerMonth) / 1000;
+    return kwh * FACTORS.local.gCO2PerKwh;
+  }
+
+  function calculate() {
+    const services = [
+      { id: 'claude',  label: 'Claude' },
+      { id: 'chatgpt', label: 'ChatGPT' },
+      { id: 'gemini',  label: 'Gemini' },
+    ];
+
+    const values = services.map(s => ({ label: s.label, g: gCO2ForService(s.id) }));
+    const localG = gCO2ForLocal();
+    values.push({ label: 'Lokaal', g: localG });
+
+    const total = values.reduce((sum, v) => sum + v.g, 0);
+
+    document.getElementById('total-co2').textContent = total < 1
+      ? (total * 1000).toFixed(1) + ' mg'
+      : total.toFixed(1) + ' g';
+
+    // Comparisons
+    document.getElementById('car-km').textContent     = (total / 120).toFixed(2);   // ~120 gCO2/km
+    document.getElementById('lamp-hours').textContent = (total / 1).toFixed(0);     // ~1 gCO2/uur LED
+    document.getElementById('phone-charges').textContent = (total / 8.8).toFixed(1); // ~8.8 gCO2 per laadbeurt
+
+    // Breakdown
+    const breakdown = document.getElementById('breakdown');
+    breakdown.innerHTML = '';
+    const maxG = Math.max(...values.map(v => v.g), 0.001);
+    values.forEach(v => {
+      const pct = Math.round((v.g / maxG) * 100);
+      const label = v.g < 1
+        ? (v.g * 1000).toFixed(1) + ' mg'
+        : v.g.toFixed(2) + ' g';
+      breakdown.innerHTML += `
+        <div class="breakdown-row">
+          <span style="min-width:70px;font-size:0.85rem;">${v.label}</span>
+          <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${pct}%"></div></div>
+          <span class="breakdown-value">${label}</span>
+        </div>`;
+    });
+  }
+
+  calculate();
+</script>
+</body>
+</html>
