@@ -1,437 +1,638 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="nl" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Spill Your Tea: AI CO₂ Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.06);
+      --text: #0f1117;
+      --muted: #6b7280;
+      --subtle: #e5e7eb;
+      --accent: #6d28d9;
+      --accent2: #4f46e5;
+      --grad-a: #6d28d9;
+      --grad-b: #4338ca;
+      --shadow: 0 2px 12px rgba(0,0,0,0.07);
+      --shadow-lg: 0 8px 32px rgba(109,40,217,0.18);
+      --radius: 16px;
+      --input-bg: #f3f4f6;
+    }
+    [data-theme="dark"] {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --card-border: rgba(255,255,255,0.07);
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --subtle: #2d3148;
+      --shadow: 0 2px 12px rgba(0,0,0,0.3);
+      --input-bg: #252836;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f0f4f8;
-      color: #1a202c;
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
-      padding: 2rem 1rem;
+      transition: background 0.3s, color 0.3s;
     }
 
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, var(--grad-a) 0%, var(--grad-b) 100%);
+      padding: 3rem 1.5rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .header-inner { position: relative; z-index: 1; }
     .slogan {
-      text-align: center;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #667eea;
-      margin-bottom: 0.4rem;
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 0.78rem;
-      color: #a0aec0;
-      margin-top: 2rem;
-      padding-bottom: 2rem;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 1.8rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #718096;
-      font-size: 0.95rem;
-      margin-bottom: 2rem;
-    }
-
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1.25rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    }
-
-    .card h2 {
-      font-size: 1rem;
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.9);
+      font-size: 0.75rem;
       font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 99px;
       margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
-
-    .service-row {
-      display: grid;
-      grid-template-columns: 1fr auto auto;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid #edf2f7;
-    }
-
-    .service-row:last-child { border-bottom: none; }
-
-    .service-name {
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-
-    .service-sub {
-      font-size: 0.78rem;
-      color: #a0aec0;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.2rem;
-    }
-
-    .input-group label {
-      font-size: 0.72rem;
-      color: #718096;
-      text-align: center;
-    }
-
-    input[type="number"] {
-      width: 75px;
-      padding: 0.4rem 0.5rem;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      text-align: center;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-
-    input[type="number"]:focus {
-      border-color: #667eea;
-    }
-
-    .result-card {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-radius: 12px;
-      padding: 1.75rem;
-      margin-bottom: 1.25rem;
-      text-align: center;
-    }
-
-    .result-card h2 {
-      font-size: 0.9rem;
-      font-weight: 500;
-      opacity: 0.85;
+    header h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
       margin-bottom: 0.5rem;
     }
-
-    .co2-number {
-      font-size: 3rem;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .co2-unit {
+    header p {
+      color: rgba(255,255,255,0.75);
       font-size: 1rem;
-      opacity: 0.8;
-      margin-top: 0.25rem;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .theme-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      border-radius: 99px;
+      color: #fff;
+      font-size: 1.1rem;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 2;
+    }
+    .theme-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 740px;
+      margin: -2.5rem auto 0;
+      padding: 0 1rem 4rem;
+      position: relative;
+      z-index: 1;
     }
 
+    /* ── Result hero card ── */
+    .result-hero {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--card-border);
+    }
+    .result-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .co2-display {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.3rem;
+      margin-bottom: 0.25rem;
+    }
+    .co2-number {
+      font-size: clamp(3rem, 10vw, 4.5rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      transition: all 0.3s;
+    }
+    .co2-unit {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .co2-context {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
     .comparisons {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0.75rem;
-      margin-top: 1.25rem;
     }
-
     .comparison {
-      background: rgba(255,255,255,0.15);
-      border-radius: 8px;
-      padding: 0.75rem 0.5rem;
-      font-size: 0.82rem;
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 0.9rem 0.5rem;
       text-align: center;
+      border: 1px solid var(--subtle);
     }
+    .comparison .icon { font-size: 1.6rem; display: block; margin-bottom: 0.35rem; }
+    .comparison .val { font-size: 1.1rem; font-weight: 700; color: var(--text); display: block; }
+    .comparison .lbl { font-size: 0.72rem; color: var(--muted); }
 
-    .comparison .icon { font-size: 1.4rem; display: block; margin-bottom: 0.25rem; }
-
-    .breakdown {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .breakdown-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    .breakdown-bar-wrap {
-      flex: 1;
-      height: 6px;
-      background: #edf2f7;
-      border-radius: 3px;
-      margin: 0 0.75rem;
-      overflow: hidden;
-    }
-
-    .breakdown-bar {
-      height: 100%;
-      border-radius: 3px;
-      background: #667eea;
-      transition: width 0.4s ease;
-    }
-
-    .breakdown-value {
-      font-size: 0.82rem;
-      color: #718096;
-      min-width: 60px;
-      text-align: right;
-    }
-
-    .local-options {
-      margin-top: 0.75rem;
-      padding-top: 0.75rem;
-      border-top: 1px solid #edf2f7;
-      display: none;
-    }
-
-    .local-options.visible { display: block; }
-
-    .local-options label {
-      font-size: 0.85rem;
-      color: #4a5568;
-      display: block;
-      margin-bottom: 0.4rem;
-    }
-
-    .local-options input {
-      width: 90px;
-    }
-
-    .local-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .disclaimer {
-      font-size: 0.78rem;
-      color: #a0aec0;
-      line-height: 1.5;
-    }
-
-    .disclaimer a { color: #667eea; text-decoration: none; }
-
+    /* ── Period toggle ── */
     .period-toggle {
       display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 0.4rem;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
     }
-
     .period-toggle button {
       flex: 1;
-      padding: 0.4rem;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      background: white;
+      padding: 0.55rem;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
       cursor: pointer;
-      font-size: 0.85rem;
-      transition: all 0.15s;
+      transition: all 0.2s;
+    }
+    .period-toggle button.active {
+      background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(109,40,217,0.3);
     }
 
-    .period-toggle button.active {
-      background: #667eea;
-      color: white;
-      border-color: #667eea;
+    /* ── Cards ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--card-border);
+    }
+    .card-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── Service rows ── */
+    .service-row {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--subtle);
+    }
+    .service-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .service-row:first-of-type { padding-top: 0; }
+    .service-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    .service-name { font-size: 0.95rem; font-weight: 600; }
+    .service-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+    .service-co2 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(109,40,217,0.08);
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+    .inputs-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .input-block label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--input-bg);
+      border-radius: 10px;
+      border: 1.5px solid transparent;
+      transition: border-color 0.2s;
+      overflow: hidden;
+    }
+    .input-wrap:focus-within { border-color: var(--accent); }
+    .input-wrap button {
+      width: 32px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .input-wrap button:hover { color: var(--accent); }
+    .input-wrap input[type="number"] {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: center;
+      outline: none;
+      min-width: 0;
+      padding: 0.4rem 0;
+      -moz-appearance: textfield;
+    }
+    .input-wrap input[type="number"]::-webkit-outer-spin-button,
+    .input-wrap input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    /* ── Donut chart ── */
+    .chart-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .donut-svg { flex-shrink: 0; }
+    .legend { flex: 1; display: flex; flex-direction: column; gap: 0.55rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-label { flex: 1; color: var(--text); }
+    .legend-val { font-weight: 600; color: var(--muted); font-size: 0.8rem; }
+
+    /* ── Disclaimer ── */
+    .disclaimer {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .disclaimer strong { color: var(--text); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 0 1rem 2rem;
+    }
+
+    @media (max-width: 500px) {
+      .comparisons { grid-template-columns: repeat(3,1fr); gap: 0.5rem; }
+      .comparison { padding: 0.7rem 0.3rem; }
+      .comparison .icon { font-size: 1.3rem; }
+      .inputs-row { grid-template-columns: 1fr 1fr; }
+      .chart-wrap { flex-direction: column; }
     }
   </style>
 </head>
 <body>
-<div class="container">
 
-  <p class="slogan">Spill Your Tea: AI zonder bullshit</p>
-  <h1>AI CO₂ Calculator</h1>
-  <p class="subtitle">Schat je maandelijkse CO₂-uitstoot van AI-gebruik</p>
-
-  <!-- Period toggle -->
-  <div class="card">
-    <h2>Periode</h2>
-    <div class="period-toggle">
-      <button class="active" onclick="setPeriod('day', this)">Per dag</button>
-      <button onclick="setPeriod('month', this)">Per maand</button>
-    </div>
-    <p id="period-hint" style="font-size:0.82rem;color:#718096;">Vul in hoeveel berichten je <strong>per dag</strong> verstuurt.</p>
+<header>
+  <button class="theme-btn" onclick="toggleTheme()" title="Donkere modus">🌙</button>
+  <div class="header-inner">
+    <span class="slogan">Spill Your Tea: AI zonder bullshit</span>
+    <h1>AI CO₂ Calculator</h1>
+    <p>Hoeveel CO₂ stoot jouw AI-gebruik eigenlijk uit?</p>
   </div>
+</header>
 
-  <!-- Services -->
-  <div class="card">
-    <h2>🤖 Cloudgebaseerde AI</h2>
+<main>
 
-    <div class="service-row">
-      <div>
-        <div class="service-name">Claude (Anthropic)</div>
-        <div class="service-sub">Sonnet / Opus / Haiku</div>
-      </div>
-      <div class="input-group">
-        <input type="number" id="claude-msgs" min="0" value="10" oninput="calculate()" />
-        <label>berichten</label>
-      </div>
-      <div class="input-group">
-        <input type="number" id="claude-tokens" min="0" value="1000" oninput="calculate()" />
-        <label>tokens/bericht</label>
-      </div>
+  <!-- Result hero -->
+  <div class="result-hero">
+    <div class="result-label">Geschatte uitstoot per maand</div>
+    <div class="co2-display">
+      <span class="co2-number" id="total-co2">0</span>
+      <span class="co2-unit" id="co2-unit">g CO₂</span>
     </div>
-
-    <div class="service-row">
-      <div>
-        <div class="service-name">ChatGPT (OpenAI)</div>
-        <div class="service-sub">GPT-4o / GPT-4 / GPT-3.5</div>
-      </div>
-      <div class="input-group">
-        <input type="number" id="chatgpt-msgs" min="0" value="5" oninput="calculate()" />
-        <label>berichten</label>
-      </div>
-      <div class="input-group">
-        <input type="number" id="chatgpt-tokens" min="0" value="1000" oninput="calculate()" />
-        <label>tokens/bericht</label>
-      </div>
-    </div>
-
-    <div class="service-row">
-      <div>
-        <div class="service-name">Gemini (Google)</div>
-        <div class="service-sub">Gemini Pro / Ultra</div>
-      </div>
-      <div class="input-group">
-        <input type="number" id="gemini-msgs" min="0" value="3" oninput="calculate()" />
-        <label>berichten</label>
-      </div>
-      <div class="input-group">
-        <input type="number" id="gemini-tokens" min="0" value="1000" oninput="calculate()" />
-        <label>tokens/bericht</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- Local models -->
-  <div class="card">
-    <h2>💻 Lokale modellen</h2>
-    <div class="service-row" style="border:none;padding-top:0;">
-      <div>
-        <div class="service-name">Eigen hardware</div>
-        <div class="service-sub">Ollama, LM Studio, etc.</div>
-      </div>
-      <div class="input-group">
-        <input type="number" id="local-hours" min="0" step="0.5" value="0" oninput="calculate()" />
-        <label>uur/dag</label>
-      </div>
-      <div class="input-group">
-        <input type="number" id="local-watt" min="0" value="200" oninput="calculate()" />
-        <label>GPU watt</label>
-      </div>
-    </div>
-    <p style="font-size:0.78rem;color:#a0aec0;margin-top:0.5rem;">
-      GPU wattage vind je in de specs van je videokaart (bijv. RTX 3080 ≈ 320W, RTX 4060 ≈ 115W, M2 MacBook ≈ 20W).
-    </p>
-  </div>
-
-  <!-- Result -->
-  <div class="result-card">
-    <h2>Geschatte CO₂-uitstoot per maand</h2>
-    <div class="co2-number" id="total-co2">—</div>
-    <div class="co2-unit">gram CO₂-equivalent</div>
+    <div class="co2-context" id="co2-context">Vul je gebruik in om je uitstoot te berekenen</div>
     <div class="comparisons">
       <div class="comparison">
         <span class="icon">🚗</span>
-        <span id="car-km">—</span> km autorijden
+        <span class="val" id="car-km">—</span>
+        <span class="lbl">km autorijden</span>
       </div>
       <div class="comparison">
         <span class="icon">💡</span>
-        <span id="lamp-hours">—</span> uur LED-lamp
+        <span class="val" id="lamp-hours">—</span>
+        <span class="lbl">uur LED-lamp</span>
       </div>
       <div class="comparison">
         <span class="icon">📱</span>
-        <span id="phone-charges">—</span>× telefoon opladen
+        <span class="val" id="phone-charges">—</span>
+        <span class="lbl">× telefoon opladen</span>
       </div>
     </div>
   </div>
 
-  <!-- Breakdown -->
+  <!-- Period toggle -->
+  <div class="period-toggle">
+    <button class="active" onclick="setPeriod('day', this)">Per dag</button>
+    <button onclick="setPeriod('month', this)">Per maand</button>
+  </div>
+
+  <!-- Cloud AI -->
   <div class="card">
-    <h2>📊 Verdeling per dienst</h2>
-    <div class="breakdown" id="breakdown"></div>
+    <div class="card-title">☁️ Cloud AI</div>
+
+    <div class="service-row">
+      <div class="service-header">
+        <div>
+          <div class="service-name">Claude</div>
+          <div class="service-sub">Anthropic · Sonnet / Opus / Haiku</div>
+        </div>
+        <span class="service-co2" id="claude-badge">0 mg</span>
+      </div>
+      <div class="inputs-row">
+        <div class="input-block">
+          <label>Berichten</label>
+          <div class="input-wrap">
+            <button onclick="step('claude-msgs',-1)">−</button>
+            <input type="number" id="claude-msgs" min="0" value="10" oninput="calculate()" />
+            <button onclick="step('claude-msgs',1)">+</button>
+          </div>
+        </div>
+        <div class="input-block">
+          <label>Tokens / bericht</label>
+          <div class="input-wrap">
+            <button onclick="step('claude-tokens',-100)">−</button>
+            <input type="number" id="claude-tokens" min="0" value="1000" oninput="calculate()" />
+            <button onclick="step('claude-tokens',100)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div class="service-header">
+        <div>
+          <div class="service-name">ChatGPT</div>
+          <div class="service-sub">OpenAI · GPT-4o / GPT-4 / GPT-3.5</div>
+        </div>
+        <span class="service-co2" id="chatgpt-badge">0 mg</span>
+      </div>
+      <div class="inputs-row">
+        <div class="input-block">
+          <label>Berichten</label>
+          <div class="input-wrap">
+            <button onclick="step('chatgpt-msgs',-1)">−</button>
+            <input type="number" id="chatgpt-msgs" min="0" value="5" oninput="calculate()" />
+            <button onclick="step('chatgpt-msgs',1)">+</button>
+          </div>
+        </div>
+        <div class="input-block">
+          <label>Tokens / bericht</label>
+          <div class="input-wrap">
+            <button onclick="step('chatgpt-tokens',-100)">−</button>
+            <input type="number" id="chatgpt-tokens" min="0" value="1000" oninput="calculate()" />
+            <button onclick="step('chatgpt-tokens',100)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div class="service-header">
+        <div>
+          <div class="service-name">Gemini</div>
+          <div class="service-sub">Google · Pro / Ultra</div>
+        </div>
+        <span class="service-co2" id="gemini-badge">0 mg</span>
+      </div>
+      <div class="inputs-row">
+        <div class="input-block">
+          <label>Berichten</label>
+          <div class="input-wrap">
+            <button onclick="step('gemini-msgs',-1)">−</button>
+            <input type="number" id="gemini-msgs" min="0" value="3" oninput="calculate()" />
+            <button onclick="step('gemini-msgs',1)">+</button>
+          </div>
+        </div>
+        <div class="input-block">
+          <label>Tokens / bericht</label>
+          <div class="input-wrap">
+            <button onclick="step('gemini-tokens',-100)">−</button>
+            <input type="number" id="gemini-tokens" min="0" value="1000" oninput="calculate()" />
+            <button onclick="step('gemini-tokens',100)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local -->
+  <div class="card">
+    <div class="card-title">💻 Lokale modellen</div>
+    <div class="service-row" style="border:none;padding:0;">
+      <div class="service-header">
+        <div>
+          <div class="service-name">Eigen hardware</div>
+          <div class="service-sub">Ollama, LM Studio, etc.</div>
+        </div>
+        <span class="service-co2" id="local-badge">0 mg</span>
+      </div>
+      <div class="inputs-row">
+        <div class="input-block">
+          <label>Uren per dag</label>
+          <div class="input-wrap">
+            <button onclick="step('local-hours',-0.5)">−</button>
+            <input type="number" id="local-hours" min="0" step="0.5" value="0" oninput="calculate()" />
+            <button onclick="step('local-hours',0.5)">+</button>
+          </div>
+        </div>
+        <div class="input-block">
+          <label>GPU watt</label>
+          <div class="input-wrap">
+            <button onclick="step('local-watt',-10)">−</button>
+            <input type="number" id="local-watt" min="0" value="200" oninput="calculate()" />
+            <button onclick="step('local-watt',10)">+</button>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:0.75rem;">RTX 3080 ≈ 320W &nbsp;·&nbsp; RTX 4060 ≈ 115W &nbsp;·&nbsp; M2 MacBook ≈ 20W</p>
+    </div>
+  </div>
+
+  <!-- Donut chart -->
+  <div class="card">
+    <div class="card-title">📊 Verdeling per dienst</div>
+    <div class="chart-wrap">
+      <svg class="donut-svg" id="donut" width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="48" fill="none" stroke="var(--subtle)" stroke-width="16"/>
+        <circle id="arc-claude"  cx="60" cy="60" r="48" fill="none" stroke="#7c3aed" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-chatgpt" cx="60" cy="60" r="48" fill="none" stroke="#4f46e5" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-gemini"  cx="60" cy="60" r="48" fill="none" stroke="#0ea5e9" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-local"   cx="60" cy="60" r="48" fill="none" stroke="#10b981" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+      </svg>
+      <div class="legend" id="legend"></div>
+    </div>
   </div>
 
   <!-- Disclaimer -->
   <div class="card">
-    <h2>⚠️ Over de berekeningen</h2>
+    <div class="card-title">⚠️ Over de berekeningen</div>
     <p class="disclaimer">
-      Deze schattingen zijn gebaseerd op gepubliceerd onderzoek naar energieverbruik van grote taalmodellen.
-      De werkelijke uitstoot verschilt sterk per model, datacenter, energiemix en regio.<br /><br />
-      <strong>Emissiefactoren (geschat):</strong><br />
-      • Cloud AI: ~0,005–0,03 Wh per 1.000 tokens (Luccioni et al., 2023)<br />
-      • Koolstofintensiteit: OpenAI/Anthropic ≈ 200 gCO₂/kWh, Google ≈ 100 gCO₂/kWh (deels hernieuwbaar)<br />
-      • Lokale modellen: GPU-wattage × gebruiksuren × netintensiteit NL (≈ 290 gCO₂/kWh, 2024)<br /><br />
-      Beschouw deze tool als een <em>indicatie</em>, niet als exacte meting.
+      Schattingen op basis van gepubliceerd onderzoek (Luccioni et al., 2023).<br /><br />
+      <strong>Emissiefactoren:</strong><br />
+      Cloud AI: ~0,005–0,03 Wh per 1.000 tokens<br />
+      Koolstofintensiteit: OpenAI/Anthropic ≈ 200 gCO₂/kWh · Google ≈ 100 gCO₂/kWh<br />
+      Lokaal: GPU-wattage × uren × NL-netintensiteit (≈ 290 gCO₂/kWh, 2024)<br /><br />
+      Beschouw dit als een <em>indicatie</em>, niet als exacte meting.
     </p>
   </div>
 
-</div>
+</main>
 
-  <p class="footer">© Kimberley van Ruiven — Spill Your Tea: AI zonder bullshit</p>
-
-</div>
+<footer>© Kimberley van Ruiven &nbsp;·&nbsp; Spill Your Tea: AI zonder bullshit</footer>
 
 <script>
   let period = 'day';
+  const CIRCUMFERENCE = 2 * Math.PI * 48;
+  const DAYS = 30;
+
+  const COLORS = {
+    claude: '#7c3aed', chatgpt: '#4f46e5', gemini: '#0ea5e9', local: '#10b981'
+  };
+
+  const FACTORS = {
+    claude:  { whPer1kTokens: 0.010, gCO2PerKwh: 200 },
+    chatgpt: { whPer1kTokens: 0.020, gCO2PerKwh: 200 },
+    gemini:  { whPer1kTokens: 0.010, gCO2PerKwh: 100 },
+  };
+
+  function step(id, delta) {
+    const el = document.getElementById(id);
+    const val = parseFloat(el.value) || 0;
+    el.value = Math.max(0, val + delta);
+    calculate();
+  }
 
   function setPeriod(p, btn) {
     period = p;
     document.querySelectorAll('.period-toggle button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const hint = document.getElementById('period-hint');
-    hint.innerHTML = p === 'day'
-      ? 'Vul in hoeveel berichten je <strong>per dag</strong> verstuurt.'
-      : 'Vul in hoeveel berichten je <strong>per maand</strong> verstuurt.';
     calculate();
   }
 
-  // Emission factors
-  const FACTORS = {
-    claude:  { whPer1kTokens: 0.010, gCO2PerKwh: 200 },
-    chatgpt: { whPer1kTokens: 0.020, gCO2PerKwh: 200 },
-    gemini:  { whPer1kTokens: 0.010, gCO2PerKwh: 100 },
-    local:   { gCO2PerKwh: 290 },
-  };
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.querySelector('.theme-btn').textContent = isDark ? '🌙' : '☀️';
+  }
 
-  const DAYS_PER_MONTH = 30;
+  function fmt(g) {
+    if (g < 0.001) return '0 mg';
+    if (g < 1) return (g * 1000).toFixed(1) + ' mg';
+    if (g < 1000) return g.toFixed(1) + ' g';
+    return (g / 1000).toFixed(2) + ' kg';
+  }
 
   function gCO2ForService(id) {
     const msgs   = parseFloat(document.getElementById(id + '-msgs').value) || 0;
     const tokens = parseFloat(document.getElementById(id + '-tokens').value) || 0;
     const f = FACTORS[id];
-    const totalTokens = msgs * tokens * (period === 'day' ? DAYS_PER_MONTH : 1);
-    const wh = (totalTokens / 1000) * f.whPer1kTokens;
-    return (wh / 1000) * f.gCO2PerKwh;
+    const totalTokens = msgs * tokens * (period === 'day' ? DAYS : 1);
+    return ((totalTokens / 1000) * f.whPer1kTokens / 1000) * f.gCO2PerKwh;
   }
 
   function gCO2ForLocal() {
     const hours = parseFloat(document.getElementById('local-hours').value) || 0;
     const watt  = parseFloat(document.getElementById('local-watt').value) || 0;
-    const hoursPerMonth = hours * (period === 'day' ? DAYS_PER_MONTH : 1);
-    const kwh = (watt * hoursPerMonth) / 1000;
-    return kwh * FACTORS.local.gCO2PerKwh;
+    const h = hours * (period === 'day' ? DAYS : 1);
+    return (watt * h / 1000) * 290;
+  }
+
+  let animFrame;
+  function animateTo(el, target, unit) {
+    cancelAnimationFrame(animFrame);
+    const start = parseFloat(el.textContent) || 0;
+    const duration = 600;
+    const startTime = performance.now();
+    function tick(now) {
+      const t = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = (start + (target - start) * eased).toFixed(target < 1 ? 2 : 1);
+      if (t < 1) animFrame = requestAnimationFrame(tick);
+      else el.textContent = target.toFixed(target < 1 ? 2 : 1);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function updateDonut(values, total) {
+    const circ = CIRCUMFERENCE;
+    let offset = 0;
+    const ids = ['claude', 'chatgpt', 'gemini', 'local'];
+    ids.forEach(id => {
+      const arc = document.getElementById('arc-' + id);
+      const v = values.find(v => v.id === id);
+      const pct = total > 0 ? (v ? v.g / total : 0) : 0;
+      const dash = pct * circ;
+      arc.style.strokeDasharray = dash + ' ' + (circ - dash);
+      arc.style.strokeDashoffset = -offset;
+      offset += dash;
+    });
+  }
+
+  function updateLegend(values, total) {
+    const legend = document.getElementById('legend');
+    legend.innerHTML = values.map(v => `
+      <div class="legend-item">
+        <span class="legend-dot" style="background:${COLORS[v.id]}"></span>
+        <span class="legend-label">${v.label}</span>
+        <span class="legend-val">${fmt(v.g)}</span>
+      </div>`).join('');
   }
 
   function calculate() {
@@ -441,37 +642,42 @@
       { id: 'gemini',  label: 'Gemini' },
     ];
 
-    const values = services.map(s => ({ label: s.label, g: gCO2ForService(s.id) }));
-    const localG = gCO2ForLocal();
-    values.push({ label: 'Lokaal', g: localG });
+    const values = services.map(s => ({ id: s.id, label: s.label, g: gCO2ForService(s.id) }));
+    values.push({ id: 'local', label: 'Lokaal', g: gCO2ForLocal() });
 
-    const total = values.reduce((sum, v) => sum + v.g, 0);
+    const total = values.reduce((s, v) => s + v.g, 0);
 
-    document.getElementById('total-co2').textContent = total < 1
-      ? (total * 1000).toFixed(1) + ' mg'
-      : total.toFixed(1) + ' g';
+    // Badges
+    values.forEach(v => {
+      const badge = document.getElementById(v.id + '-badge');
+      if (badge) badge.textContent = fmt(v.g);
+    });
+
+    // Total display
+    const el = document.getElementById('total-co2');
+    const unitEl = document.getElementById('co2-unit');
+    const ctx = document.getElementById('co2-context');
+
+    let displayVal, unitStr;
+    if (total < 1) { displayVal = total * 1000; unitStr = 'mg CO₂'; }
+    else if (total < 1000) { displayVal = total; unitStr = 'g CO₂'; }
+    else { displayVal = total / 1000; unitStr = 'kg CO₂'; }
+
+    animateTo(el, displayVal, unitStr);
+    unitEl.textContent = unitStr;
+
+    if (total < 1) ctx.textContent = 'Heel weinig — goed bezig!';
+    else if (total < 50) ctx.textContent = 'Vergelijkbaar met een paar minuten autorijden per maand.';
+    else if (total < 500) ctx.textContent = 'Vergelijkbaar met een korte autorit per maand.';
+    else ctx.textContent = 'Niet niks — overweeg minder zware modellen te gebruiken.';
 
     // Comparisons
-    document.getElementById('car-km').textContent     = (total / 120).toFixed(2);   // ~120 gCO2/km
-    document.getElementById('lamp-hours').textContent = (total / 1).toFixed(0);     // ~1 gCO2/uur LED
-    document.getElementById('phone-charges').textContent = (total / 8.8).toFixed(1); // ~8.8 gCO2 per laadbeurt
+    document.getElementById('car-km').textContent      = (total / 120).toFixed(2);
+    document.getElementById('lamp-hours').textContent  = Math.round(total / 1);
+    document.getElementById('phone-charges').textContent = (total / 8.8).toFixed(1);
 
-    // Breakdown
-    const breakdown = document.getElementById('breakdown');
-    breakdown.innerHTML = '';
-    const maxG = Math.max(...values.map(v => v.g), 0.001);
-    values.forEach(v => {
-      const pct = Math.round((v.g / maxG) * 100);
-      const label = v.g < 1
-        ? (v.g * 1000).toFixed(1) + ' mg'
-        : v.g.toFixed(2) + ' g';
-      breakdown.innerHTML += `
-        <div class="breakdown-row">
-          <span style="min-width:70px;font-size:0.85rem;">${v.label}</span>
-          <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${pct}%"></div></div>
-          <span class="breakdown-value">${label}</span>
-        </div>`;
-    });
+    updateDonut(values, total);
+    updateLegend(values, total);
   }
 
   calculate();
