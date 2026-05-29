@@ -45,17 +45,13 @@
 
     /* ── Header ── */
     header {
-      background: linear-gradient(135deg, var(--grad-a) 0%, var(--grad-b) 100%);
+      background:
+        linear-gradient(135deg, rgba(109,40,217,0.82) 0%, rgba(67,56,202,0.85) 100%),
+        url('https://images.unsplash.com/photo-1557683304-673a23048d34?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
       padding: 3rem 1.5rem 5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
-    }
-    header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
     .header-inner { position: relative; z-index: 1; }
     .slogan {
@@ -198,9 +194,11 @@
       transition: all 0.2s;
     }
     .period-toggle button.active {
-      background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+      background:
+        linear-gradient(135deg, rgba(109,40,217,0.88), rgba(67,56,202,0.92)),
+        url('https://images.unsplash.com/photo-1557683304-673a23048d34?auto=format&fit=crop&w=400&q=80') center/cover;
       color: #fff;
-      box-shadow: 0 2px 8px rgba(109,40,217,0.3);
+      box-shadow: 0 2px 8px rgba(109,40,217,0.35);
     }
 
     /* ── Cards ── */
@@ -328,11 +326,28 @@
     }
 
     @media (max-width: 500px) {
-      .comparisons { grid-template-columns: repeat(3,1fr); gap: 0.5rem; }
-      .comparison { padding: 0.7rem 0.3rem; }
-      .comparison .icon { font-size: 1.3rem; }
-      .inputs-row { grid-template-columns: 1fr 1fr; }
-      .chart-wrap { flex-direction: column; }
+      main { padding: 0 0.75rem 3rem; }
+
+      .result-hero { padding: 1.5rem 1rem; }
+      .comparisons { gap: 0.4rem; }
+      .comparison { padding: 0.65rem 0.25rem; }
+      .comparison .icon { font-size: 1.2rem; margin-bottom: 0.2rem; }
+      .comparison .val { font-size: 0.95rem; }
+      .comparison .lbl { font-size: 0.65rem; }
+
+      .card { padding: 1.1rem; }
+
+      .service-header { flex-wrap: wrap; gap: 0.4rem; }
+      .service-sub { font-size: 0.72rem; }
+      .service-co2 { font-size: 0.75rem; }
+
+      .inputs-row { gap: 0.5rem; }
+      .input-block label { font-size: 0.68rem; }
+      .input-wrap button { width: 28px; }
+      .input-wrap input[type="number"] { font-size: 0.85rem; }
+
+      .chart-wrap { flex-direction: column; align-items: flex-start; }
+      .donut-svg { align-self: center; }
     }
   </style>
 </head>
