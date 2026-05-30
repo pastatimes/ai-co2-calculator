@@ -52,7 +52,7 @@
     header {
       background:
         linear-gradient(rgba(0,0,0,0.38), rgba(0,0,0,0.38)),
-        url('https://images.unsplash.com/photo-1557683304-673a23048d34?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+        url('https://images.unsplash.com/vector-1777541008359-5595da12f041?fm=jpg&q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
       padding: 3rem 1.5rem 5rem;
       text-align: center;
       position: relative;
@@ -200,9 +200,7 @@
       transition: all 0.2s;
     }
     .period-toggle button.active {
-      background:
-        linear-gradient(rgba(0,0,0,0.22), rgba(0,0,0,0.22)),
-        url('https://images.unsplash.com/photo-1557683304-673a23048d34?auto=format&fit=crop&w=400&q=80') center/cover;
+      background: #000;
       color: #fff;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
@@ -376,7 +374,7 @@
 
   <!-- Result hero -->
   <div class="result-hero">
-    <div class="result-label">Geschatte uitstoot per dag / maand</div>
+    <div class="result-label" id="result-label">Geschatte uitstoot per dag</div>
     <div class="co2-display">
       <span class="co2-number" id="total-co2">0</span>
       <span class="co2-unit" id="co2-unit">g CO₂</span>
@@ -385,17 +383,17 @@
     <div class="comparisons">
       <div class="comparison">
         <span class="icon">🚗</span>
-        <span class="val" id="car-km">—</span>
+        <span class="val" id="car-km">0</span>
         <span class="lbl">km autorijden</span>
       </div>
       <div class="comparison">
         <span class="icon">💡</span>
-        <span class="val" id="lamp-hours">—</span>
+        <span class="val" id="lamp-hours">0</span>
         <span class="lbl">uur LED-lamp</span>
       </div>
       <div class="comparison">
         <span class="icon">📱</span>
-        <span class="val" id="phone-charges">—</span>
+        <span class="val" id="phone-charges">0</span>
         <span class="lbl">× telefoon opladen</span>
       </div>
     </div>
@@ -587,6 +585,8 @@
     period = p;
     document.querySelectorAll('.period-toggle button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    document.getElementById('result-label').textContent =
+      p === 'day' ? 'Geschatte uitstoot per dag' : 'Geschatte uitstoot per maand';
     calculate();
   }
 
@@ -691,10 +691,10 @@
     animateTo(el, displayVal, unitStr);
     unitEl.textContent = unitStr;
 
-    if (total < 1) ctx.textContent = 'Heel weinig — goed bezig!';
-    else if (total < 50) ctx.textContent = 'Vergelijkbaar met een paar minuten autorijden per maand.';
-    else if (total < 500) ctx.textContent = 'Vergelijkbaar met een korte autorit per maand.';
-    else ctx.textContent = 'Niet niks — overweeg minder zware modellen te gebruiken.';
+    if (total < 1) ctx.textContent = 'Heel weinig! Goed bezig!';
+    else if (total < 50) ctx.textContent = `Vergelijkbaar met een paar minuten autorijden per ${period === 'day' ? 'dag' : 'maand'}.`;
+    else if (total < 500) ctx.textContent = `Vergelijkbaar met een korte autorit per ${period === 'day' ? 'dag' : 'maand'}.`;
+    else ctx.textContent = 'Niet niks. Overweeg minder zware modellen te gebruiken.';
 
     // Comparisons
     document.getElementById('car-km').textContent      = (total / 120).toFixed(2);
