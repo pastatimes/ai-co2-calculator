@@ -13,12 +13,12 @@
       --text: #0f1117;
       --muted: #6b7280;
       --subtle: #e5e7eb;
-      --accent: #6d28d9;
-      --accent2: #4f46e5;
-      --grad-a: #6d28d9;
-      --grad-b: #4338ca;
+      --accent: #d97706;
+      --accent2: #b45309;
+      --grad-a: #ea580c;
+      --grad-b: #d97706;
       --shadow: 0 2px 12px rgba(0,0,0,0.07);
-      --shadow-lg: 0 8px 32px rgba(109,40,217,0.18);
+      --shadow-lg: 0 8px 32px rgba(217,119,6,0.25);
       --radius: 16px;
       --input-bg: #f3f4f6;
     }
@@ -52,7 +52,7 @@
     header {
       background:
         linear-gradient(rgba(0,0,0,0.38), rgba(0,0,0,0.38)),
-        url('https://images.unsplash.com/photo-1650897356415-7ebcb6f761cb?fm=jpg&q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+        url('https://images.unsplash.com/photo-1607135097879-b6371869411a?fm=jpg&q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
       padding: 3rem 1.5rem 5rem;
       text-align: center;
       position: relative;
@@ -200,9 +200,9 @@
       transition: all 0.2s;
     }
     .period-toggle button.active {
-      background: #000;
+      background: #d97706;
       color: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 8px rgba(217,119,6,0.4);
     }
 
     /* ── Cards ── */
@@ -242,7 +242,7 @@
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--accent);
-      background: rgba(109,40,217,0.08);
+      background: rgba(217,119,6,0.10);
       padding: 0.2rem 0.6rem;
       border-radius: 99px;
       white-space: nowrap;
@@ -533,10 +533,10 @@
     <div class="chart-wrap">
       <svg class="donut-svg" id="donut" width="120" height="120" viewBox="0 0 120 120">
         <circle cx="60" cy="60" r="48" fill="none" stroke="var(--subtle)" stroke-width="16"/>
-        <circle id="arc-claude"  cx="60" cy="60" r="48" fill="none" stroke="#7c3aed" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-        <circle id="arc-chatgpt" cx="60" cy="60" r="48" fill="none" stroke="#4f46e5" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-        <circle id="arc-gemini"  cx="60" cy="60" r="48" fill="none" stroke="#0ea5e9" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-        <circle id="arc-local"   cx="60" cy="60" r="48" fill="none" stroke="#10b981" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-claude"  cx="60" cy="60" r="48" fill="none" stroke="#ea580c" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-chatgpt" cx="60" cy="60" r="48" fill="none" stroke="#d97706" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-gemini"  cx="60" cy="60" r="48" fill="none" stroke="#b45309" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-local"   cx="60" cy="60" r="48" fill="none" stroke="#78716c" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
       </svg>
       <div class="legend" id="legend"></div>
     </div>
@@ -565,7 +565,7 @@
   const DAYS = 30;
 
   const COLORS = {
-    claude: '#7c3aed', chatgpt: '#4f46e5', gemini: '#0ea5e9', local: '#10b981'
+    claude: '#ea580c', chatgpt: '#d97706', gemini: '#b45309', local: '#78716c'
   };
 
   const FACTORS = {
