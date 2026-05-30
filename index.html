@@ -42,10 +42,17 @@
 
     body {
       font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg);
+      background:
+        linear-gradient(rgba(255,255,255,0.78), rgba(255,255,255,0.78)),
+        url('https://images.unsplash.com/photo-1607135097879-b6371869411a?fm=jpg&q=80&w=1920&auto=format&fit=crop') center/cover fixed;
       color: var(--text);
       min-height: 100vh;
-      transition: background 0.3s, color 0.3s;
+      transition: color 0.3s;
+    }
+    [data-theme="dark"] body {
+      background:
+        linear-gradient(rgba(15,17,23,0.85), rgba(15,17,23,0.85)),
+        url('https://images.unsplash.com/photo-1607135097879-b6371869411a?fm=jpg&q=80&w=1920&auto=format&fit=crop') center/cover fixed;
     }
 
     /* ── Header ── */
