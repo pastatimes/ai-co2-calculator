@@ -10,6 +10,7 @@
   <meta name="apple-mobile-web-app-title" content="CO₂ Calc" />
   <link rel="apple-touch-icon" href="icon.svg" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
   <style>
     :root {
       --bg: #f6f7fb;
@@ -404,7 +405,7 @@
 <body>
 
 <header>
-  <button class="theme-btn" onclick="toggleTheme()" title="Donkere modus">🌙</button>
+  <button class="theme-btn" onclick="toggleTheme()" title="Donkere modus"><i class="ph ph-moon"></i></button>
   <div class="header-inner">
     <span class="slogan">Spill Your Tea: AI zonder bullshit</span>
     <h1>AI CO₂ Calculator</h1>
@@ -424,17 +425,17 @@
     <div class="co2-context" id="co2-context">Vul je gebruik in om je uitstoot te berekenen</div>
     <div class="comparisons">
       <div class="comparison">
-        <span class="icon">🚗</span>
+        <span class="icon"><i class="ph ph-car"></i></span>
         <span class="val" id="car-km">0</span>
         <span class="lbl">km autorijden</span>
       </div>
       <div class="comparison">
-        <span class="icon">💡</span>
+        <span class="icon"><i class="ph ph-lightbulb"></i></span>
         <span class="val" id="lamp-hours">0</span>
         <span class="lbl">uur LED-lamp</span>
       </div>
       <div class="comparison">
-        <span class="icon">📱</span>
+        <span class="icon"><i class="ph ph-device-mobile"></i></span>
         <span class="val" id="phone-charges">0</span>
         <span class="lbl">× telefoon opladen</span>
       </div>
@@ -449,7 +450,7 @@
 
   <!-- Cloud AI -->
   <div class="card">
-    <div class="card-title">☁️ Cloud AI</div>
+    <div class="card-title"><i class="ph ph-cloud"></i> Cloud AI</div>
 
     <div class="service-row">
       <div class="service-header">
@@ -547,7 +548,7 @@
 
   <!-- Groenere alternatieven -->
   <div class="card">
-    <div class="card-title">🌿 Groenere alternatieven</div>
+    <div class="card-title"><i class="ph ph-leaf"></i> Groenere alternatieven</div>
 
     <div class="service-row">
       <div class="service-header">
@@ -645,7 +646,7 @@
 
   <!-- Lokale modellen -->
   <div class="card">
-    <div class="card-title">💻 Lokale modellen</div>
+    <div class="card-title"><i class="ph ph-laptop"></i> Lokale modellen</div>
     <div class="service-row" style="border:none;padding:0;">
       <div class="service-header">
         <div>
@@ -678,7 +679,7 @@
 
   <!-- Donut chart -->
   <div class="card">
-    <div class="card-title">📊 Verdeling per dienst</div>
+    <div class="card-title"><i class="ph ph-chart-donut"></i> Verdeling per dienst</div>
     <div class="chart-wrap">
       <svg class="donut-svg" id="donut" width="120" height="120" viewBox="0 0 120 120">
         <circle cx="60" cy="60" r="48" fill="none" stroke="var(--subtle)" stroke-width="16"/>
@@ -696,45 +697,45 @@
 
   <!-- Concrete tips -->
   <div class="card">
-    <div class="card-title">💡 Wat kun je nu al doen?</div>
+    <div class="card-title"><i class="ph ph-lightbulb"></i> Wat kun je nu al doen?</div>
     <div class="tips-list">
       <div class="tip-item">
-        <div class="tip-icon">🎯</div>
+        <div class="tip-icon"><i class="ph ph-target"></i></div>
         <div>
           <div class="tip-title">Kies het juiste model voor de taak</div>
           <div class="tip-desc">Gebruik Claude Sonnet of Haiku voor de meeste taken. Reserveer Opus of GPT-4 alleen voor complexe analyses. Dat scheelt al snel 3× in uitstoot — zonder in te leveren op kwaliteit.</div>
         </div>
       </div>
       <div class="tip-item">
-        <div class="tip-icon">📦</div>
+        <div class="tip-icon"><i class="ph ph-stack"></i></div>
         <div>
           <div class="tip-title">Bundel je vragen</div>
           <div class="tip-desc">Stuur één uitgebreid bericht in plaats van tien losse. Elk bericht kost energie voor context én verwerking. Neem even de tijd om je vraag compleet te formuleren.</div>
         </div>
       </div>
       <div class="tip-item">
-        <div class="tip-icon">🌿</div>
+        <div class="tip-icon"><i class="ph ph-leaf"></i></div>
         <div>
           <div class="tip-title">Switch naar een groenere provider</div>
           <div class="tip-desc">GreenPT draait volledig op hernieuwbare energie en is ook nog eens GDPR-proof. Le Chat (Mistral) gebruikt Europese servers met een van de laagste CO₂-intensieve elektriciteitsnetjes ter wereld.</div>
         </div>
       </div>
       <div class="tip-item">
-        <div class="tip-icon">🔒</div>
+        <div class="tip-icon"><i class="ph ph-lock"></i></div>
         <div>
           <div class="tip-title">Gebruik lokale modellen voor privégevoelige taken</div>
           <div class="tip-desc">Tools zoals Ollama of LM Studio draaien op je eigen computer. Geen cloud, geen datalek, en bij groene stroom ook nog eens milieuvriendelijker.</div>
         </div>
       </div>
       <div class="tip-item">
-        <div class="tip-icon">❓</div>
+        <div class="tip-icon"><i class="ph ph-question"></i></div>
         <div>
           <div class="tip-title">Vraag jezelf: heeft AI hier echt meerwaarde?</div>
           <div class="tip-desc">Niet elke vraag heeft AI nodig. Een Google-zoekopdracht, een bestaand template of gewoon even nadenken is soms sneller én duurzamer. Bewust niet gebruiken telt ook mee.</div>
         </div>
       </div>
       <div class="tip-item">
-        <div class="tip-icon">📊</div>
+        <div class="tip-icon"><i class="ph ph-chart-bar"></i></div>
         <div>
           <div class="tip-title">Gebruik deze calculator als nulmeting</div>
           <div class="tip-desc">Weet je nu wat je uitstoot is? Stel dan een realistisch doel. Bijvoorbeeld: 20% minder berichten per dag, of overstappen op een groenere provider voor je dagelijkse gebruik.</div>
@@ -745,7 +746,7 @@
 
   <!-- Disclaimer -->
   <div class="card">
-    <div class="card-title">⚠️ Over de berekeningen</div>
+    <div class="card-title"><i class="ph ph-warning"></i> Over de berekeningen</div>
     <p class="disclaimer">
       Schattingen op basis van gepubliceerd onderzoek (Luccioni et al., 2023) en Mistral Environmental Report (2025).<br /><br />
       <strong>Emissiefactoren:</strong><br />
@@ -815,7 +816,7 @@
     const html = document.documentElement;
     const isDark = html.getAttribute('data-theme') === 'dark';
     html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    document.querySelector('.theme-btn').textContent = isDark ? '🌙' : '☀️';
+    document.querySelector('.theme-btn').innerHTML = isDark ? '<i class="ph ph-moon"></i>' : '<i class="ph ph-sun"></i>';
   }
 
   function fmt(g) {
