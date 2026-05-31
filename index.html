@@ -39,11 +39,7 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      width: 100%;
-      overflow-x: hidden;
-    }
+    html, body { width: 100%; overflow-x: hidden; }
 
     body {
       font-family: 'Inter', -apple-system, sans-serif;
@@ -60,7 +56,6 @@
         url('https://images.unsplash.com/photo-1607135097879-b6371869411a?fm=jpg&q=80&w=1920&auto=format&fit=crop') center/cover fixed;
     }
 
-    /* ── Header ── */
     header {
       background:
         linear-gradient(rgba(0,0,0,0.48), rgba(0,0,0,0.48)),
@@ -120,7 +115,6 @@
     }
     .theme-btn:hover { background: rgba(255,255,255,0.25); }
 
-    /* ── Main layout ── */
     main {
       max-width: 740px;
       width: 100%;
@@ -130,7 +124,6 @@
       z-index: 1;
     }
 
-    /* ── Result hero card ── */
     .result-hero {
       background: var(--card);
       border-radius: var(--radius);
@@ -165,21 +158,9 @@
       line-height: 1;
       transition: all 0.3s;
     }
-    .co2-unit {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--muted);
-    }
-    .co2-context {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-    }
-    .comparisons {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-    }
+    .co2-unit { font-size: 1.1rem; font-weight: 600; color: var(--muted); }
+    .co2-context { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .comparisons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
     .comparison {
       background: var(--bg);
       border-radius: 12px;
@@ -191,7 +172,6 @@
     .comparison .val { font-size: 1.1rem; font-weight: 700; color: var(--text); display: block; }
     .comparison .lbl { font-size: 0.72rem; color: var(--muted); }
 
-    /* ── Period toggle ── */
     .period-toggle {
       display: flex;
       background: var(--card);
@@ -221,7 +201,6 @@
       box-shadow: 0 2px 8px rgba(217,119,6,0.4);
     }
 
-    /* ── Cards ── */
     .card {
       background: var(--card);
       border-radius: var(--radius);
@@ -239,7 +218,6 @@
       margin-bottom: 1.25rem;
     }
 
-    /* ── Service rows ── */
     .service-row {
       padding: 1rem 0;
       border-bottom: 1px solid var(--subtle);
@@ -320,12 +298,54 @@
     .input-wrap input[type="number"]::-webkit-outer-spin-button,
     .input-wrap input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-    /* ── Donut chart ── */
-    .chart-wrap {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
+    /* ── Token preset knoppen ── */
+    .token-select {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+      background: var(--input-bg);
+      border-radius: 10px;
+      padding: 3px;
     }
+    .token-btn {
+      border: none;
+      background: transparent;
+      border-radius: 7px;
+      padding: 0.38rem 0.1rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .token-btn.active { background: var(--accent); color: white; }
+    .token-hint {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      font-style: italic;
+    }
+
+    /* ── Groen badge ── */
+    .green-tag {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      background: #dcfce7;
+      color: #15803d;
+      padding: 0.12rem 0.45rem;
+      border-radius: 99px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+      letter-spacing: 0.05em;
+    }
+    [data-theme="dark"] .green-tag { background: #14532d; color: #86efac; }
+
+    /* ── Donut chart ── */
+    .chart-wrap { display: flex; align-items: center; gap: 1.5rem; }
     .donut-svg { flex-shrink: 0; }
     .legend { flex: 1; display: flex; flex-direction: column; gap: 0.55rem; }
     .legend-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; }
@@ -333,15 +353,25 @@
     .legend-label { flex: 1; color: var(--text); }
     .legend-val { font-weight: 600; color: var(--muted); font-size: 0.8rem; }
 
-    /* ── Disclaimer ── */
-    .disclaimer {
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.7;
+    /* ── Tips ── */
+    .tips-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .tip-item {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      padding: 0.9rem;
+      background: var(--bg);
+      border-radius: 10px;
+      border: 1px solid var(--subtle);
     }
+    .tip-icon { font-size: 1.2rem; flex-shrink: 0; line-height: 1.4; }
+    .tip-title { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+    .tip-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+
+    /* ── Disclaimer ── */
+    .disclaimer { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
     .disclaimer strong { color: var(--text); }
 
-    /* ── Footer ── */
     footer {
       text-align: center;
       font-size: 0.78rem;
@@ -351,27 +381,23 @@
 
     @media (max-width: 500px) {
       main { padding: 0 0.75rem 3rem; }
-
       .result-hero { padding: 1.5rem 1rem; }
       .comparisons { gap: 0.4rem; }
       .comparison { padding: 0.65rem 0.25rem; }
       .comparison .icon { font-size: 1.2rem; margin-bottom: 0.2rem; }
       .comparison .val { font-size: 0.95rem; }
       .comparison .lbl { font-size: 0.65rem; }
-
       .card { padding: 1.1rem; }
-
       .service-header { flex-wrap: wrap; gap: 0.4rem; }
       .service-sub { font-size: 0.72rem; }
       .service-co2 { font-size: 0.75rem; }
-
       .inputs-row { gap: 0.5rem; }
       .input-block label { font-size: 0.68rem; }
       .input-wrap button { width: 28px; }
       .input-wrap input[type="number"] { font-size: 0.85rem; }
-
       .chart-wrap { flex-direction: column; align-items: flex-start; }
       .donut-svg { align-self: center; }
+      .token-btn { font-size: 0.65rem; }
     }
   </style>
 </head>
@@ -428,36 +454,8 @@
     <div class="service-row">
       <div class="service-header">
         <div>
-          <div class="service-name">Claude</div>
-          <div class="service-sub">Anthropic · Sonnet / Opus / Haiku</div>
-        </div>
-        <span class="service-co2" id="claude-badge">0 mg</span>
-      </div>
-      <div class="inputs-row">
-        <div class="input-block">
-          <label>Berichten</label>
-          <div class="input-wrap">
-            <button onclick="step('claude-msgs',-1)">−</button>
-            <input type="number" id="claude-msgs" min="0" value="10" oninput="calculate()" />
-            <button onclick="step('claude-msgs',1)">+</button>
-          </div>
-        </div>
-        <div class="input-block">
-          <label>Tokens / bericht</label>
-          <div class="input-wrap">
-            <button onclick="step('claude-tokens',-100)">−</button>
-            <input type="number" id="claude-tokens" min="0" value="1000" oninput="calculate()" />
-            <button onclick="step('claude-tokens',100)">+</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="service-row">
-      <div class="service-header">
-        <div>
           <div class="service-name">ChatGPT</div>
-          <div class="service-sub">OpenAI · GPT-4o / GPT-4 / GPT-3.5</div>
+          <div class="service-sub">OpenAI · GPT-4o / GPT-4</div>
         </div>
         <span class="service-co2" id="chatgpt-badge">0 mg</span>
       </div>
@@ -471,12 +469,46 @@
           </div>
         </div>
         <div class="input-block">
-          <label>Tokens / bericht</label>
-          <div class="input-wrap">
-            <button onclick="step('chatgpt-tokens',-100)">−</button>
-            <input type="number" id="chatgpt-tokens" min="0" value="1000" oninput="calculate()" />
-            <button onclick="step('chatgpt-tokens',100)">+</button>
+          <label>Berichtlengte</label>
+          <div class="token-select">
+            <button class="token-btn" onclick="setTokens('chatgpt', 200, this)">Kort</button>
+            <button class="token-btn active" onclick="setTokens('chatgpt', 800, this)">Gemiddeld</button>
+            <button class="token-btn" onclick="setTokens('chatgpt', 2000, this)">Lang</button>
+            <button class="token-btn" onclick="setTokens('chatgpt', 5000, this)">Uitgebreid</button>
           </div>
+          <input type="hidden" id="chatgpt-tokens" value="800" />
+          <div class="token-hint">Kort = simpele vraag · Uitgebreid = lang rapport</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div class="service-header">
+        <div>
+          <div class="service-name">Claude <span style="font-weight:400;color:var(--muted);font-size:0.85rem;">(Opus)</span></div>
+          <div class="service-sub">Anthropic · zwaarste model</div>
+        </div>
+        <span class="service-co2" id="claude-badge">0 mg</span>
+      </div>
+      <div class="inputs-row">
+        <div class="input-block">
+          <label>Berichten</label>
+          <div class="input-wrap">
+            <button onclick="step('claude-msgs',-1)">−</button>
+            <input type="number" id="claude-msgs" min="0" value="10" oninput="calculate()" />
+            <button onclick="step('claude-msgs',1)">+</button>
+          </div>
+        </div>
+        <div class="input-block">
+          <label>Berichtlengte</label>
+          <div class="token-select">
+            <button class="token-btn" onclick="setTokens('claude', 200, this)">Kort</button>
+            <button class="token-btn active" onclick="setTokens('claude', 800, this)">Gemiddeld</button>
+            <button class="token-btn" onclick="setTokens('claude', 2000, this)">Lang</button>
+            <button class="token-btn" onclick="setTokens('claude', 5000, this)">Uitgebreid</button>
+          </div>
+          <input type="hidden" id="claude-tokens" value="800" />
+          <div class="token-hint">Kort = simpele vraag · Uitgebreid = lang rapport</div>
         </div>
       </div>
     </div>
@@ -499,18 +531,119 @@
           </div>
         </div>
         <div class="input-block">
-          <label>Tokens / bericht</label>
-          <div class="input-wrap">
-            <button onclick="step('gemini-tokens',-100)">−</button>
-            <input type="number" id="gemini-tokens" min="0" value="1000" oninput="calculate()" />
-            <button onclick="step('gemini-tokens',100)">+</button>
+          <label>Berichtlengte</label>
+          <div class="token-select">
+            <button class="token-btn" onclick="setTokens('gemini', 200, this)">Kort</button>
+            <button class="token-btn active" onclick="setTokens('gemini', 800, this)">Gemiddeld</button>
+            <button class="token-btn" onclick="setTokens('gemini', 2000, this)">Lang</button>
+            <button class="token-btn" onclick="setTokens('gemini', 5000, this)">Uitgebreid</button>
           </div>
+          <input type="hidden" id="gemini-tokens" value="800" />
+          <div class="token-hint">Kort = simpele vraag · Uitgebreid = lang rapport</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Local -->
+  <!-- Groenere alternatieven -->
+  <div class="card">
+    <div class="card-title">🌿 Groenere alternatieven</div>
+
+    <div class="service-row">
+      <div class="service-header">
+        <div>
+          <div class="service-name">Claude Sonnet <span class="green-tag">Efficiënter</span></div>
+          <div class="service-sub">Anthropic · lichtere versie van Claude</div>
+        </div>
+        <span class="service-co2" id="sonnet-badge">0 mg</span>
+      </div>
+      <div class="inputs-row">
+        <div class="input-block">
+          <label>Berichten</label>
+          <div class="input-wrap">
+            <button onclick="step('sonnet-msgs',-1)">−</button>
+            <input type="number" id="sonnet-msgs" min="0" value="0" oninput="calculate()" />
+            <button onclick="step('sonnet-msgs',1)">+</button>
+          </div>
+        </div>
+        <div class="input-block">
+          <label>Berichtlengte</label>
+          <div class="token-select">
+            <button class="token-btn" onclick="setTokens('sonnet', 200, this)">Kort</button>
+            <button class="token-btn active" onclick="setTokens('sonnet', 800, this)">Gemiddeld</button>
+            <button class="token-btn" onclick="setTokens('sonnet', 2000, this)">Lang</button>
+            <button class="token-btn" onclick="setTokens('sonnet', 5000, this)">Uitgebreid</button>
+          </div>
+          <input type="hidden" id="sonnet-tokens" value="800" />
+          <div class="token-hint">Kort = simpele vraag · Uitgebreid = lang rapport</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div class="service-header">
+        <div>
+          <div class="service-name">Le Chat <span class="green-tag">Europese servers</span></div>
+          <div class="service-sub">Mistral AI · Frans elektriciteitsnet (kernenergie)</div>
+        </div>
+        <span class="service-co2" id="lechat-badge">0 mg</span>
+      </div>
+      <div class="inputs-row">
+        <div class="input-block">
+          <label>Berichten</label>
+          <div class="input-wrap">
+            <button onclick="step('lechat-msgs',-1)">−</button>
+            <input type="number" id="lechat-msgs" min="0" value="0" oninput="calculate()" />
+            <button onclick="step('lechat-msgs',1)">+</button>
+          </div>
+        </div>
+        <div class="input-block">
+          <label>Berichtlengte</label>
+          <div class="token-select">
+            <button class="token-btn" onclick="setTokens('lechat', 200, this)">Kort</button>
+            <button class="token-btn active" onclick="setTokens('lechat', 800, this)">Gemiddeld</button>
+            <button class="token-btn" onclick="setTokens('lechat', 2000, this)">Lang</button>
+            <button class="token-btn" onclick="setTokens('lechat', 5000, this)">Uitgebreid</button>
+          </div>
+          <input type="hidden" id="lechat-tokens" value="800" />
+          <div class="token-hint">Kort = simpele vraag · Uitgebreid = lang rapport</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div class="service-header">
+        <div>
+          <div class="service-name">GreenPT <span class="green-tag">100% hernieuwbaar</span></div>
+          <div class="service-sub">Nederlands · Scaleway · GDPR-proof</div>
+        </div>
+        <span class="service-co2" id="greenpt-badge">0 mg</span>
+      </div>
+      <div class="inputs-row">
+        <div class="input-block">
+          <label>Berichten</label>
+          <div class="input-wrap">
+            <button onclick="step('greenpt-msgs',-1)">−</button>
+            <input type="number" id="greenpt-msgs" min="0" value="0" oninput="calculate()" />
+            <button onclick="step('greenpt-msgs',1)">+</button>
+          </div>
+        </div>
+        <div class="input-block">
+          <label>Berichtlengte</label>
+          <div class="token-select">
+            <button class="token-btn" onclick="setTokens('greenpt', 200, this)">Kort</button>
+            <button class="token-btn active" onclick="setTokens('greenpt', 800, this)">Gemiddeld</button>
+            <button class="token-btn" onclick="setTokens('greenpt', 2000, this)">Lang</button>
+            <button class="token-btn" onclick="setTokens('greenpt', 5000, this)">Uitgebreid</button>
+          </div>
+          <input type="hidden" id="greenpt-tokens" value="800" />
+          <div class="token-hint">Kort = simpele vraag · Uitgebreid = lang rapport</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lokale modellen -->
   <div class="card">
     <div class="card-title">💻 Lokale modellen</div>
     <div class="service-row" style="border:none;padding:0;">
@@ -549,12 +682,64 @@
     <div class="chart-wrap">
       <svg class="donut-svg" id="donut" width="120" height="120" viewBox="0 0 120 120">
         <circle cx="60" cy="60" r="48" fill="none" stroke="var(--subtle)" stroke-width="16"/>
-        <circle id="arc-claude"  cx="60" cy="60" r="48" fill="none" stroke="#ea580c" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-        <circle id="arc-chatgpt" cx="60" cy="60" r="48" fill="none" stroke="#d97706" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-        <circle id="arc-gemini"  cx="60" cy="60" r="48" fill="none" stroke="#b45309" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-        <circle id="arc-local"   cx="60" cy="60" r="48" fill="none" stroke="#78716c" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-claude"   cx="60" cy="60" r="48" fill="none" stroke="#ea580c" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-chatgpt"  cx="60" cy="60" r="48" fill="none" stroke="#d97706" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-gemini"   cx="60" cy="60" r="48" fill="none" stroke="#b45309" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-sonnet"   cx="60" cy="60" r="48" fill="none" stroke="#16a34a" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-lechat"   cx="60" cy="60" r="48" fill="none" stroke="#2563eb" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-greenpt"  cx="60" cy="60" r="48" fill="none" stroke="#15803d" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle id="arc-local"    cx="60" cy="60" r="48" fill="none" stroke="#78716c" stroke-width="16" stroke-dasharray="0 302" stroke-linecap="round" transform="rotate(-90 60 60)"/>
       </svg>
       <div class="legend" id="legend"></div>
+    </div>
+  </div>
+
+  <!-- Concrete tips -->
+  <div class="card">
+    <div class="card-title">💡 Wat kun je nu al doen?</div>
+    <div class="tips-list">
+      <div class="tip-item">
+        <div class="tip-icon">🎯</div>
+        <div>
+          <div class="tip-title">Kies het juiste model voor de taak</div>
+          <div class="tip-desc">Gebruik Claude Sonnet of Haiku voor de meeste taken. Reserveer Opus of GPT-4 alleen voor complexe analyses. Dat scheelt al snel 3× in uitstoot — zonder in te leveren op kwaliteit.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-icon">📦</div>
+        <div>
+          <div class="tip-title">Bundel je vragen</div>
+          <div class="tip-desc">Stuur één uitgebreid bericht in plaats van tien losse. Elk bericht kost energie voor context én verwerking. Neem even de tijd om je vraag compleet te formuleren.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-icon">🌿</div>
+        <div>
+          <div class="tip-title">Switch naar een groenere provider</div>
+          <div class="tip-desc">GreenPT draait volledig op hernieuwbare energie en is ook nog eens GDPR-proof. Le Chat (Mistral) gebruikt Europese servers met een van de laagste CO₂-intensieve elektriciteitsnetjes ter wereld.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-icon">🔒</div>
+        <div>
+          <div class="tip-title">Gebruik lokale modellen voor privégevoelige taken</div>
+          <div class="tip-desc">Tools zoals Ollama of LM Studio draaien op je eigen computer. Geen cloud, geen datalek, en bij groene stroom ook nog eens milieuvriendelijker.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-icon">❓</div>
+        <div>
+          <div class="tip-title">Vraag jezelf: heeft AI hier echt meerwaarde?</div>
+          <div class="tip-desc">Niet elke vraag heeft AI nodig. Een Google-zoekopdracht, een bestaand template of gewoon even nadenken is soms sneller én duurzamer. Bewust niet gebruiken telt ook mee.</div>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-icon">📊</div>
+        <div>
+          <div class="tip-title">Gebruik deze calculator als nulmeting</div>
+          <div class="tip-desc">Weet je nu wat je uitstoot is? Stel dan een realistisch doel. Bijvoorbeeld: 20% minder berichten per dag, of overstappen op een groenere provider voor je dagelijkse gebruik.</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -562,10 +747,14 @@
   <div class="card">
     <div class="card-title">⚠️ Over de berekeningen</div>
     <p class="disclaimer">
-      Schattingen op basis van gepubliceerd onderzoek (Luccioni et al., 2023).<br /><br />
+      Schattingen op basis van gepubliceerd onderzoek (Luccioni et al., 2023) en Mistral Environmental Report (2025).<br /><br />
       <strong>Emissiefactoren:</strong><br />
-      Cloud AI: ~0,005–0,03 Wh per 1.000 tokens<br />
-      Koolstofintensiteit: OpenAI/Anthropic ≈ 200 gCO₂/kWh · Google ≈ 100 gCO₂/kWh<br />
+      Claude Opus: ~0,010 Wh/1k tokens · 200 gCO₂/kWh<br />
+      Claude Sonnet: ~0,007 Wh/1k tokens · 200 gCO₂/kWh<br />
+      ChatGPT: ~0,020 Wh/1k tokens · 200 gCO₂/kWh<br />
+      Gemini: ~0,010 Wh/1k tokens · 100 gCO₂/kWh<br />
+      Le Chat (Mistral): ~0,008 Wh/1k tokens · 50 gCO₂/kWh (Frans net)<br />
+      GreenPT: ~0,010 Wh/1k tokens · 10 gCO₂/kWh (hernieuwbare energie)<br />
       Lokaal: GPU-wattage × uren × NL-netintensiteit (≈ 290 gCO₂/kWh, 2024)<br /><br />
       Beschouw dit als een <em>indicatie</em>, niet als exacte meting.
     </p>
@@ -581,19 +770,35 @@
   const DAYS = 30;
 
   const COLORS = {
-    claude: '#ea580c', chatgpt: '#d97706', gemini: '#b45309', local: '#78716c'
+    claude:  '#ea580c',
+    chatgpt: '#d97706',
+    gemini:  '#b45309',
+    sonnet:  '#16a34a',
+    lechat:  '#2563eb',
+    greenpt: '#15803d',
+    local:   '#78716c',
   };
 
   const FACTORS = {
     claude:  { whPer1kTokens: 0.010, gCO2PerKwh: 200 },
     chatgpt: { whPer1kTokens: 0.020, gCO2PerKwh: 200 },
     gemini:  { whPer1kTokens: 0.010, gCO2PerKwh: 100 },
+    sonnet:  { whPer1kTokens: 0.007, gCO2PerKwh: 200 },
+    lechat:  { whPer1kTokens: 0.008, gCO2PerKwh: 50  },
+    greenpt: { whPer1kTokens: 0.010, gCO2PerKwh: 10  },
   };
 
   function step(id, delta) {
     const el = document.getElementById(id);
     const val = parseFloat(el.value) || 0;
     el.value = Math.max(0, val + delta);
+    calculate();
+  }
+
+  function setTokens(id, value, btn) {
+    document.getElementById(id + '-tokens').value = value;
+    btn.closest('.token-select').querySelectorAll('.token-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
     calculate();
   }
 
@@ -624,19 +829,19 @@
     const msgs   = parseFloat(document.getElementById(id + '-msgs').value) || 0;
     const tokens = parseFloat(document.getElementById(id + '-tokens').value) || 0;
     const f = FACTORS[id];
-    const totalTokens = msgs * tokens * (period === 'day' ? DAYS : 1);
-    return ((totalTokens / 1000) * f.whPer1kTokens / 1000) * f.gCO2PerKwh;
+    const multiplier = period === 'month' ? DAYS : 1;
+    return ((msgs * tokens * multiplier / 1000) * f.whPer1kTokens / 1000) * f.gCO2PerKwh;
   }
 
   function gCO2ForLocal() {
     const hours = parseFloat(document.getElementById('local-hours').value) || 0;
     const watt  = parseFloat(document.getElementById('local-watt').value) || 0;
-    const h = hours * (period === 'day' ? DAYS : 1);
-    return (watt * h / 1000) * 290;
+    const multiplier = period === 'month' ? DAYS : 1;
+    return (watt * hours * multiplier / 1000) * 290;
   }
 
   let animFrame;
-  function animateTo(el, target, unit) {
+  function animateTo(el, target) {
     cancelAnimationFrame(animFrame);
     const start = parseFloat(el.textContent) || 0;
     const duration = 600;
@@ -654,7 +859,7 @@
   function updateDonut(values, total) {
     const circ = CIRCUMFERENCE;
     let offset = 0;
-    const ids = ['claude', 'chatgpt', 'gemini', 'local'];
+    const ids = ['claude', 'chatgpt', 'gemini', 'sonnet', 'lechat', 'greenpt', 'local'];
     ids.forEach(id => {
       const arc = document.getElementById('arc-' + id);
       const v = values.find(v => v.id === id);
@@ -668,19 +873,24 @@
 
   function updateLegend(values, total) {
     const legend = document.getElementById('legend');
-    legend.innerHTML = values.map(v => `
-      <div class="legend-item">
-        <span class="legend-dot" style="background:${COLORS[v.id]}"></span>
-        <span class="legend-label">${v.label}</span>
-        <span class="legend-val">${fmt(v.g)}</span>
-      </div>`).join('');
+    legend.innerHTML = values
+      .filter(v => v.g > 0)
+      .map(v => `
+        <div class="legend-item">
+          <span class="legend-dot" style="background:${COLORS[v.id]}"></span>
+          <span class="legend-label">${v.label}</span>
+          <span class="legend-val">${fmt(v.g)}</span>
+        </div>`).join('') || '<div style="font-size:0.82rem;color:var(--muted)">Vul je gebruik in om de verdeling te zien.</div>';
   }
 
   function calculate() {
     const services = [
-      { id: 'claude',  label: 'Claude' },
+      { id: 'claude',  label: 'Claude Opus' },
       { id: 'chatgpt', label: 'ChatGPT' },
       { id: 'gemini',  label: 'Gemini' },
+      { id: 'sonnet',  label: 'Claude Sonnet' },
+      { id: 'lechat',  label: 'Le Chat' },
+      { id: 'greenpt', label: 'GreenPT' },
     ];
 
     const values = services.map(s => ({ id: s.id, label: s.label, g: gCO2ForService(s.id) }));
@@ -688,13 +898,11 @@
 
     const total = values.reduce((s, v) => s + v.g, 0);
 
-    // Badges
     values.forEach(v => {
       const badge = document.getElementById(v.id + '-badge');
       if (badge) badge.textContent = fmt(v.g);
     });
 
-    // Total display
     const el = document.getElementById('total-co2');
     const unitEl = document.getElementById('co2-unit');
     const ctx = document.getElementById('co2-context');
@@ -704,17 +912,17 @@
     else if (total < 1000) { displayVal = total; unitStr = 'g CO₂'; }
     else { displayVal = total / 1000; unitStr = 'kg CO₂'; }
 
-    animateTo(el, displayVal, unitStr);
+    animateTo(el, displayVal);
     unitEl.textContent = unitStr;
 
+    const period_label = period === 'day' ? 'dag' : 'maand';
     if (total < 1) ctx.textContent = 'Heel weinig! Goed bezig!';
-    else if (total < 50) ctx.textContent = `Vergelijkbaar met een paar minuten autorijden per ${period === 'day' ? 'dag' : 'maand'}.`;
-    else if (total < 500) ctx.textContent = `Vergelijkbaar met een korte autorit per ${period === 'day' ? 'dag' : 'maand'}.`;
+    else if (total < 50) ctx.textContent = `Vergelijkbaar met een paar minuten autorijden per ${period_label}.`;
+    else if (total < 500) ctx.textContent = `Vergelijkbaar met een korte autorit per ${period_label}.`;
     else ctx.textContent = 'Niet niks. Overweeg minder zware modellen te gebruiken.';
 
-    // Comparisons
-    document.getElementById('car-km').textContent      = (total / 120).toFixed(2);
-    document.getElementById('lamp-hours').textContent  = Math.round(total / 1);
+    document.getElementById('car-km').textContent       = (total / 120).toFixed(2);
+    document.getElementById('lamp-hours').textContent   = Math.round(total / 1);
     document.getElementById('phone-charges').textContent = (total / 8.8).toFixed(1);
 
     updateDonut(values, total);
